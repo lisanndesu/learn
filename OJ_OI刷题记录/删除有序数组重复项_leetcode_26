@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        vector<char> used;
+        int k = 0;
+        for(auto e = nums.begin(); e!=nums.end(); e++)
+        {
+            if(find(used.begin(), used.end(), *e )!=used.end())//used中有
+            {
+                e = nums.erase(e);
+                e--;
+                continue;
+            }
+            used.push_back(*e);
+            k++;
+        }
+        cout<<used.size()<<endl;
+        return k;
+    }
+};
