@@ -1,0 +1,19 @@
+class Solution {
+public:
+    vector<int> singleNumber(vector<int>& nums) {
+        unordered_map<int, int> fred;
+        for(auto e:nums)
+        {
+            fred[e]++;
+        }
+        vector<int> ans;
+        for(auto e:nums)
+        {
+            if(fred[e]==1)
+            {
+                ans.push_back(e);
+            }
+        }
+        return ans;
+    }
+};
