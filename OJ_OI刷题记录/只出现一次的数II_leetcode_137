@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        unordered_map<int, int> fred;
+        for(int num:nums)
+        {
+            fred[num]++;
+        }
+        for(int num:nums)
+        {
+            if(fred[num]==1)
+            {
+                return num;
+            }
+        }
+        return 0;
+    }
+};
