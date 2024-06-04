@@ -1,0 +1,186 @@
+//stack_queue.h:
+#pragma once
+//模拟实现stack类和queue类，并完成测试
+#include <deque>
+#include <assert.h>
+using namespace std;
+namespace bit
+
+{
+
+#include<deque>
+
+    template<class T, class Con = deque<T>>
+
+    class stack
+
+    {
+
+    public:
+
+        stack()
+        {
+            Con _c;
+            cout << "stack()" << endl;
+        }
+
+        void push(const T& x)
+        {
+            _c.push_back(x);
+            cout << "void push(const T& x)" << endl;
+        }
+
+        void pop()
+        {
+            _c.resize(_c.size()-1);
+            cout << "void pop()" << endl;
+        }
+
+        T& top()
+        {
+            return _c[_c.size() - 1];
+            cout << "T& top()" << endl;
+        }
+
+        const T& top()const
+        {
+         
+            return _c[_c.size() - 1];
+        }
+
+        size_t size()const
+        {
+            return _c.size();
+        }
+
+        bool empty()const
+        {
+            return _c.empty();
+        }
+
+    private:
+
+        Con _c;
+
+    };
+
+
+
+    template<class T, class Con = deque<T>>
+
+    class queue
+
+    {
+
+    public:
+
+        queue()
+        {
+            Con _c;
+            cout << "queue()" << endl;
+        }
+
+        void push(const T& x)
+        {
+            _c.push_back(x);
+        }
+
+        void pop()
+        {
+            _c.erase(_c.begin());
+        }
+
+        T& back()
+        {
+            return _c[_c.size() - 1];
+        }
+
+        const T& back()const
+        {
+            return _c[_c.size() - 1];
+        }
+
+        T& front()
+        {
+            assert(!empty());
+            {
+                return _c[0];
+            }
+        }
+
+        const T& front()const
+        {
+            assert(!empty());
+            {
+                return _c[0];
+            }
+        }
+
+        size_t size()const
+        {
+            return _c.size();
+        }
+
+        bool empty()const
+        {
+            return _c.size() == 0;
+        }
+
+    private:
+
+        Con _c;
+
+    };
+
+};
+
+//cpp内容
+#include <iostream>
+#include "stack_queue.h"
+using namespace std;
+
+
+void test_stack()
+{
+	cout << "hello" << endl;
+	bit::stack<int> stack_test;
+	stack_test.push(1);
+	stack_test.push(2);
+	stack_test.push(3);
+	stack_test.push(4);
+	stack_test.push(5);
+	cout << "stack_test.size()==" << stack_test.size() << endl;
+	cout << "stack_test.top()==" << stack_test.top() << endl;
+	stack_test.pop();
+	cout << "所有内容" << endl;
+	while (!stack_test.empty())
+	{
+		cout << stack_test.top() << " ";
+		stack_test.pop();
+	}
+
+}
+
+void test_queue()
+{
+	bit::queue<int> test_que;
+	test_que.push(1);
+	test_que.push(2);
+	test_que.push(3);
+	test_que.push(4);
+	test_que.push(5);
+	test_que.push(6);
+	cout << "test_que:" << endl;
+	while (!test_que.empty())
+	{
+		cout << test_que.front() << " ";
+		test_que.pop();
+	}
+}
+
+int main()
+{
+	//test_stack();
+	test_queue();
+	return 0;
+}
