@@ -1,0 +1,158 @@
+//模拟实现priority_queue类，并完成测试
+#include <iostream>
+#include <vector>
+#include <functional>
+#include <algorithm>
+using namespace std;
+
+
+namespace bit
+
+{
+
+    template <class T, class Container = vector<T>, class Compare = less<T> >
+
+    class priority_queue
+
+    {
+
+    public:
+
+        priority_queue()
+        {
+            cout << "priority_queue()" << endl;
+        }
+
+        template <class InputIterator>
+        priority_queue(InputIterator first, InputIterator last)
+        {
+            while (first != last)
+            {
+                push(*first);
+                first++;
+            }
+        }
+
+        bool empty() const
+        {
+            return c.size() == 0;
+        }
+
+        size_t size() const
+        {
+            return  c.size();
+        }
+
+        T& top() const
+        {
+            assert(!empty());
+            return c[1];
+        }
+
+        void push(const T& x)
+        {
+            c.push_back(x);
+            adjustup(c.size() - 1);
+        }
+
+        T pop()
+        {
+            swap(c[0], c[c.size() - 1]);
+            T ret = c[c.size() - 1];
+            c.resize(c.size() - 1);
+            adjustdown(0);
+            return ret;
+        }
+
+        void adjustdown(int n)
+        {
+           // cout << "adjustdown" << endl;
+            int parent = n;
+            int child = 2 * n + 1;
+            int most = child;//默认左孩子最小
+            while (child < c.size())
+            {
+                if (child + 1 < c.size() && comp(c[child + 1], c[child]))//右孩子小
+                {
+                    most = child + 1;
+                }
+                if (comp(c[most], c[parent]))//孩子比父亲小
+                {
+                    swap(c[most], c[parent]);
+                    parent = most;
+                    child = parent * 2 + 1;
+                }
+                else//位置合适
+                {
+                    //cout << "adjustdown成功" << endl;
+                    break;
+                }
+            }
+        }
+
+        void adjustup(int n)
+        {
+            cout << "adjustup" << endl;
+            int child = n;
+            int parent = (child - 1) / 2;
+            int most = child;
+            while (parent >= 0)
+            {
+                if (child + 1 < c.size() && comp(c[child + 1], c[child]))//右孩子小
+                {
+                    most = child + 1;
+                }
+                if (comp(c[most], c[parent]))//孩子比父亲小
+                {
+                    swap(c[most], c[parent]);
+                    parent = (parent - 1) / 2;
+                    child = parent * 2 + 1;
+                }
+                else//位置合适
+                {
+                    //cout << "adjustdown成功" << endl;
+                    break;
+                }
+            }
+        }
+
+    private:
+
+        Container c;
+
+        Compare comp;
+
+    };
+
+};
+
+void test()
+{
+    cout << "hello " << endl;
+    bit::priority_queue<int> que;
+
+    vector<int> v = { 1, 9, 4, 3, 7 };
+    bit::priority_queue<int> que2(v.begin(), v.end());
+
+    cout << "que2:\n";
+    while (!que2.empty())
+    {
+        cout << que2.pop() << " ";
+    }
+
+    que2.push(2);
+    que2.push(20);
+    que2.push(3);
+    que2.push(35);
+    cout << "que2:\n";
+    while (!que2.empty())
+    {
+        cout << que2.pop() << " ";
+    }
+}
+
+int main()
+{
+    test();
+    return 0;
+}
